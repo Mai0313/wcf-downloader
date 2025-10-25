@@ -1,5 +1,6 @@
 from typing import Any
 from pathlib import Path
+import fire
 import datetime
 from functools import cached_property
 
@@ -72,10 +73,14 @@ class VideoDownloader(BaseModel):
             return title, filename
 
 
-def main() -> None:
+def main(url: str = "https://www.youtube.com/watch?v=4sDXl73ECAo") -> None:
     downloader = VideoDownloader()
-    url = "https://www.youtube.com/watch?v=_z3wG2zj2LQ"
     downloader.download(url=url, quality="best")
 
+
+def entry() -> None:
+    fire.Fire(main)
+
+
 if __name__ == "__main__":
-    main()
+    entry()

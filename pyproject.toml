@@ -67,6 +67,7 @@ authors = [
     { name = "Wei", email = "mai@mai0313.com" },
 ]
 dependencies = [
+    "fire>=0.7.1",
     "pydantic",
     "rich>=14.1.0",
     "yt-dlp>=2025.10.22",
@@ -80,8 +81,8 @@ Homepage = "https://mai0313.github.io/hcf_downloader"
 Repository = "https://github.com/Mai0313/hcf_downloader"
 
 [project.scripts]
-cli = "hcf_downloader.cli:main"
-hcf_downloader = "hcf_downloader.cli:main"
+cli = "hcf_downloader.cli:entry"
+hcf_downloader = "hcf_downloader.cli:entry"
 
 [dependency-groups]
 dev = [
