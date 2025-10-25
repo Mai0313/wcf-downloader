@@ -68,6 +68,7 @@ authors = [
 ]
 dependencies = [
     "pydantic",
+    "rich>=14.1.0",
     "yt-dlp>=2025.10.22",
 ]
 readme = "README.md"

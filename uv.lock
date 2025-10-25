@@ -601,6 +601,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
+    { name = "rich" },
     { name = "yt-dlp" },
 ]
 
@@ -636,6 +637,7 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "pydantic" },
+    { name = "rich", specifier = ">=14.1.0" },
     { name = "yt-dlp", specifier = ">=2025.10.22" },
 ]
 

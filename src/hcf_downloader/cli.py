@@ -5,6 +5,9 @@ from functools import cached_property
 
 from yt_dlp import YoutubeDL
 from pydantic import Field, BaseModel, computed_field
+from rich.console import Console
+
+console = Console()
 
 
 class VideoDownloader(BaseModel):
@@ -15,7 +18,6 @@ class VideoDownloader(BaseModel):
     @cached_property
     def quality_formats(self) -> dict[str, str]:
         quality_formats = {
-            # Prefer separate video+audio with safe fallbacks to muxed or video-only streams
             "best": "bestvideo*+bestaudio/best/bestvideo*",
             "high": "bestvideo[height<=1080][fps<=60]+bestaudio/best[height<=1080][fps<=60]/best[height<=1080]",
             "medium": "bestvideo[height<=720][fps<=60]+bestaudio/best[height<=720][fps<=60]/best[height<=720]",
@@ -23,7 +25,7 @@ class VideoDownloader(BaseModel):
         }
         return quality_formats
 
-    def get_params(self, quality: str, dry_run: bool, url: str | None = None) -> dict[str, Any]:
+    def get_params(self, quality: str, url: str | None = None) -> dict[str, Any]:
         today = datetime.datetime.now().strftime("%Y%m%d")
 
         output_path = Path(self.output_folder) / today
@@ -52,37 +54,28 @@ class VideoDownloader(BaseModel):
             "ignoreerrors": False,
             "retries": 3,
             "fragment_retries": 3,
-            # Ensure merged output is mp4 when possible (common for Discord uploads)
             "merge_output_format": "mp4",
             "http_headers": http_headers,
             "socket_timeout": 30,
             "extractor_retries": 3,
             "geo_bypass": True,
         }
-        if dry_run:
-            params.update({
-                "simulate": True,
-                "skip_download": True,
-                "quiet": False,
-                "dump_json": True,
-            })
         return params
 
-    def download(self, url: str, quality: str = "best", dry_run: bool = False) -> tuple[str, Path]:
-        params = self.get_params(quality=quality, dry_run=dry_run, url=url)
+    def download(self, url: str, quality: str = "best") -> tuple[str, Path]:
+        params = self.get_params(quality=quality, url=url)
         with YoutubeDL(params=params) as ydl:
             info = ydl.extract_info(url, download=True)
             title = info.get("title", "")
             filename = Path(ydl.prepare_filename(info))
+            console.print(f"[green]Downloaded:[/green] {title} -> {filename.as_posix()}")
             return title, filename
 
 
-if __name__ == "__main__":
+def main() -> None:
     downloader = VideoDownloader()
-    # url = "https://x.com/reissuerecords/status/1917171960255058421"
-    url = "https://www.facebook.com/share/r/17h4SsC2p1/"
-    # url = "https://www.instagram.com/reels/DFUuxmMPz4n/"
-    # url = "https://www.tiktok.com/@zachking/video/6768504823336815877"
-    # url = "https://v.douyin.com/LuXDmRrZvWs"
-    url = "https://www.bilibili.com/video/BVs1BHtozkEvc"
-    result = downloader.download(url, "best", False)
+    url = "https://www.youtube.com/watch?v=_z3wG2zj2LQ"
+    downloader.download(url=url, quality="best")
+
+if __name__ == "__main__":
+    main()
