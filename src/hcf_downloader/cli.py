@@ -1,12 +1,13 @@
 from typing import Any
 from pathlib import Path
 from functools import cached_property
+from urllib.parse import urlparse
 
 import fire
 from yt_dlp import YoutubeDL
 from pydantic import Field, BaseModel, computed_field
 from rich.console import Console
-from urllib.parse import urlparse
+
 console = Console()
 
 
