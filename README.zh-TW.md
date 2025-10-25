@@ -1,8 +1,8 @@
 <div align="center" markdown="1">
 
-# Python 專案模板
+# HCFDownloader (戶晨風下載器)
 
-[![PyPI version](https://img.shields.io/pypi/v/swebenchv2.svg)](https://pypi.org/project/swebenchv2/)
+[![PyPI version](https://img.shields.io/pypi/v/hcf-downloader.svg)](https://pypi.org/project/hcf-downloader/)
 [![python](https://img.shields.io/badge/-Python_%7C_3.11%7C_3.12%7C_3.13%7C_3.14-blue?logo=python&logoColor=white)](https://www.python.org/downloads/source/)
 [![uv](https://img.shields.io/badge/-uv_dependency_management-2C5F2D?logo=python&logoColor=white)](https://docs.astral.sh/uv/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -15,170 +15,201 @@
 
 </div>
 
-🚀 幫助 Python 開發者「快速建立新專案」的模板。內建現代化套件管理、工具鏈、Docker 與完整 CI/CD 工作流程。
-
-點擊 [使用此模板](https://github.com/Mai0313/hcf_downloader/generate) 後即可開始。
+🎥 專為存檔戶晨風（HCF）直播和影片而設計的 YouTube 頻道下載工具。輕鬆下載整個頻道或單個影片。
 
 其他語言: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md)
 
-## ✨ 重點特色
+## ✨ 功能特點
 
-- 現代 `src/` 佈局 + 全面型別註解
-- `uv` 超快依賴管理
-- pre-commit 套件鏈：ruff、mdformat（含多插件）、codespell、nbstripout、mypy、uv hooks
-- 型別嚴謹：mypy + Pydantic 外掛設定
-- pytest + coverage + xdist；PR 覆蓋率摘要留言
-  - 覆蓋率門檻 80%，HTML/XML 報告輸出至 `.github/`
-- MkDocs Material + mkdocstrings（繼承圖）、markdown-exec、MathJax
-  - 開發伺服器 `0.0.0.0:9987`；雙語文件腳手架
-- 文件生成腳本：支援 class/檔案兩種模式、可選執行 notebook、可併發、保留目錄結構
-  - 使用 anyio 非同步處理與 rich 進度條
-- 打包：`uv build`、git-cliff 產 changelog
-- CI 自動版本：以 `dunamai` 從 git 產 PEP 440 版本
-- Dockerfile 多階段（內含 uv/uvx 與 Node.js）；Compose 服務（Redis/Postgres/Mongo/MySQL）含 healthcheck 與 volume
-- GitHub Actions：測試、品質、文件部署、套件打包、Docker 推送（GHCR + buildx cache）、Release Drafter、自動標籤、祕密掃描、語義化 PR、pre-commit 自動更新
-  - pre-commit 同時掛載多個 git 階段（pre-commit、post-checkout、post-merge、post-rewrite）
-  - i18n 友善檢查（允許中文標點等 confusables）
-  - 文件列出可替代的環境管理（Rye、Conda）
-  - 相容舊式流程：可用 `uv pip` 匯出 `requirements.txt`
+- 🎬 **YouTube 頻道下載器**：下載戶晨風 YouTube 頻道的所有影片
+- 🔄 **高品質下載**：支援多種品質選項（最佳、高清、中等、低）
+- 📦 **現代 Python 技術棧**：使用 Pydantic、yt-dlp 和 Rich 建構，功能強大
+- 🎯 **簡單 CLI**：基於 Python Fire 的易用命令列介面
+- 🔁 **重試機制**：下載失敗自動重試
+- 📁 **有序輸出**：影片儲存到可自訂的下載資料夾
+- 🎨 **豐富進度顯示**：使用 Rich 函式庫提供精美的終端輸出
+- 🌐 **多站點支援**：支援 YouTube、Bilibili 等影片平台
 
 ## 🚀 快速開始
 
-需求：
+### 前置要求
 
 - Python 3.11–3.14
-- `uv`（可用 `make uv-install` 安裝）
-- pre-commit hooks：`uv tool install pre-commit` 或 `uv sync --group dev`
+- `uv`（使用 `make uv-install` 安裝）
 
-本機安裝：
+### 安裝
 
 ```bash
+# 安裝 uv（如果尚未安裝）
 make uv-install
-uv sync                     # 安裝基礎依賴
-uv tool install pre-commit  # 或：uv sync --group dev
-make format
-make test
+
+# 安裝依賴
+uv sync
 ```
 
-執行範例 CLI：
+### 基本使用
+
+下載單個影片：
 
 ```bash
-uv run hcf_downloader
+# 使用預設設定下載（最佳品質）
+uv run hcf_downloader --url="https://www.youtube.com/watch?v=VIDEO_ID"
+
+# 指定品質
+uv run hcf_downloader --url="https://www.youtube.com/watch?v=VIDEO_ID" --quality="high"
 ```
 
-作為模板使用（推薦）：
-
-1. 點擊「使用此模板」建立新倉庫
-2. 全域替換名稱：
+或使用 CLI 入口點：
 
 ```bash
-# 套件/模組名稱
-find . -type f -name "*.py" -o -name "*.md" -o -name "*.toml" | xargs sed -i 's/hcf_downloader/your_package_name/g'
-
-# 專案顯示標題
-find . -type f -name "*.py" -o -name "*.md" -o -name "*.toml" | xargs sed -i 's/RepoTemplate/YourProjectTitle/g'
+# 安裝後
+hcf_downloader --url="https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
-1. 更新 `pyproject.toml` 中的作者/描述等中繼資料
+### 進階使用
 
-## 🧰 指令一覽
+```python
+from hcf_downloader.cli import VideoDownloader
+
+# 初始化下載器
+downloader = VideoDownloader(output_folder="./my_downloads", max_retries=5)
+
+# 下載影片
+title, filepath = downloader.download(
+    url="https://www.youtube.com/watch?v=VIDEO_ID",
+    quality="best",  # 選項：best、high、medium、low
+)
+
+print(f"已下載：{title} 到 {filepath}")
+```
+
+## 🧰 指令參考
 
 ```bash
 # 開發
-make help               # 顯示 Makefile 指令列表
-make clean              # 清理快取、產物與產生的文件
+make help               # 顯示可用的 make 指令
+make clean              # 清理快取和產物
 make format             # 執行所有 pre-commit hooks
 make test               # 執行 pytest
-make gen-docs           # 從 src/ 與 scripts/ 生成文件
-
-# Git 子模組（如有使用）
-make submodule-init     # 初始化與更新所有子模組
-make submodule-update   # 更新所有子模組至遠端
 
 # 依賴管理（uv）
 make uv-install         # 安裝 uv
 uv add <pkg>            # 加入正式依賴
+uv sync                 # 安裝所有依賴
 uv add <pkg> --dev      # 加入開發依賴
-# 同步選用依賴群組
-uv sync --group dev     # 安裝開發用依賴（pre-commit、poe、notebook）
-uv sync --group test    # 安裝測試用依賴
-uv sync --group docs    # 安裝文件用依賴
 ```
 
-## 📚 文件系統
+## 📝 品質設定
 
-- 使用 MkDocs Material
-- 生成與預覽：
+HCFDownloader 支援多種品質預設：
+
+- **best**：最佳影片和音訊品質（預設）
+- **high**：最高 1080p @ 60fps
+- **medium**：最高 720p @ 60fps
+- **low**：最高 480p
+
+## 🎯 關於 HCF（戶晨風）
+
+此工具專門用於存檔戶晨風 YouTube 頻道的內容。支援下載：
+
+- 直播回放
+- 常規影片
+- 整個頻道存檔
+
+## ⚙️ 設定
+
+您可以自訂下載器行為：
+
+```python
+from hcf_downloader.cli import VideoDownloader
+
+downloader = VideoDownloader(
+    output_folder="./my_custom_folder",  # 自訂下載位置
+    max_retries=10,  # 增加重試次數
+)
+```
+
+## 🛠️ 開發
+
+### 設定開發環境
 
 ```bash
-uv sync --group docs
-make gen-docs
-uv run mkdocs serve    # http://localhost:9987
+# 安裝開發依賴
+uv sync --group dev
+
+# 安裝 pre-commit hooks
+uv tool install pre-commit
+make format
+
+# 執行測試
+make test
 ```
 
-- 自動生成腳本：`scripts/gen_docs.py`（支援 .py 與 .ipynb）
+## 📦 專案結構
 
-```bash
-# 以 class 為單位（預設）
-uv run python ./scripts/gen_docs.py --source ./src --output ./docs/Reference gen_docs
-
-# 以檔案為單位
-uv run python ./scripts/gen_docs.py --source ./src --output ./docs/Reference --mode file gen_docs
+```
+hcf_downloader/
+├── src/
+│   └── hcf_downloader/
+│       ├── __init__.py
+│       └── cli.py          # 主 CLI 和下載器邏輯
+├── tests/
+│   └── test_hello.py
+├── pyproject.toml          # 專案設定
+└── README.md
 ```
 
-## 🐳 Docker 與本機服務
+## 🔧 技術細節
 
-`docker-compose.yaml` 內提供本機開發常見服務：`redis`、`postgresql`、`mongodb`、`mysql`，以及示範 `app` 服務（執行 CLI）。
+使用現代 Python 最佳實踐建構：
 
-建立 `.env` 設定連線參數（預設如下）：
+- 使用 Pydantic 模型的型別註解程式碼
+- 強大的錯誤處理和重試機制
+- 使用 Rich 提供精美的終端輸出
+- 可設定的品質設定
+- 支援多個影片平台
 
-```bash
-REDIS_PORT=6379
-POSTGRES_DB=postgres
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_PORT=5432
-MONGO_PORT=27017
-MYSQL_ROOT_PASSWORD=root
-MYSQL_DATABASE=mysql
-MYSQL_USER=mysql
-MYSQL_PASSWORD=mysql
-MYSQL_PORT=3306
-```
+## 📚 文件
 
-啟動服務：
+更多詳細資訊：
 
-```bash
-docker compose up -d redis postgresql mongodb mysql
+- 查看[專案首頁](https://mai0313.github.io/hcf_downloader)
+- 造訪 [GitHub 倉庫](https://github.com/Mai0313/hcf_downloader)
 
-# 或啟動示範 app
-docker compose up -d app
-```
+## ❓ 常見問題
 
-## 📦 打包與發佈
+**問：可以下載播放清單嗎？**
+答：目前工具設定為下載單個影片。播放清單支援可能會在未來版本中新增。
 
-以 uv 產出套件（wheel/sdist 會放在 `dist/`）：
+**問：支援哪些影片格式？**
+答：工具預設輸出 MP4 檔案，相容大多數媒體播放器。
 
-```bash
-uv build
-```
+**問：如何停止下載？**
+答：按 `Ctrl+C` 取消目前下載。
 
-發佈到 PyPI（需設定 `UV_PUBLISH_TOKEN`）：
+**問：可以用於其他 YouTube 頻道嗎？**
+答：可以！雖然是為戶晨風頻道設計的，但此工具適用於任何 YouTube 影片或頻道。
 
-```bash
-UV_PUBLISH_TOKEN=... uv publish
-```
+## 🤝 貢獻
 
-CI 亦會在建立 `v*` 標籤時自動打包多平台可執行檔與 Python 套件，並上傳到 GitHub Release。若要自動發布到 PyPI，請在 repository 設定中新增 `UV_PUBLISH_TOKEN` secret（`build_release.yml` 已設定自動發布）。
+歡迎貢獻！請隨時提交 Pull Request。
 
-### 在本機與 PyPI 執行你的 CLI
+## 📄 授權
 
-- 本機（來源碼倉）：
+本專案採用 MIT 授權 - 詳見 [LICENSE](LICENSE) 檔案。
 
-```bash
-uv run hcf_downloader
-uv run cli
-```
+## 🙏 致謝
+
+- 使用 [yt-dlp](https://github.com/yt-dlp/yt-dlp) 實現強大的影片下載
+- 使用 [Pydantic](https://docs.pydantic.dev/) 進行資料驗證
+- 使用 [Rich](https://github.com/Textualize/rich) 提供終端 UI
+- 使用 [Python Fire](https://github.com/google/python-fire) 提供 CLI 介面
+
+---
+
+<div align="center">
+用 ❤️ 為存檔戶晨風的內容而製作
+</div>
 
 - 發佈到 PyPI 後，透過 `uvx`（臨時安裝後執行）：
 
