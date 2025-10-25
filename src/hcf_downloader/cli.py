@@ -1,9 +1,8 @@
 from typing import Any
 from pathlib import Path
-import fire
-import datetime
 from functools import cached_property
 
+import fire
 from yt_dlp import YoutubeDL
 from pydantic import Field, BaseModel, computed_field
 from rich.console import Console
@@ -12,7 +11,7 @@ console = Console()
 
 
 class VideoDownloader(BaseModel):
-    output_folder: str = Field(default="./data/downloads", description="Download folder")
+    output_folder: str = Field(default="./downloads", description="Download folder")
     max_retries: int = Field(default=5)
 
     @computed_field
@@ -26,10 +25,8 @@ class VideoDownloader(BaseModel):
         }
         return quality_formats
 
-    def get_params(self, quality: str, url: str | None = None) -> dict[str, Any]:
-        today = datetime.datetime.now().strftime("%Y%m%d")
-
-        output_path = Path(self.output_folder) / today
+    def get_params(self, quality: str, url: str) -> dict[str, Any]:
+        output_path = Path(self.output_folder)
         output_path.mkdir(parents=True, exist_ok=True)
 
         # Base headers safe for most sites; site-specific headers added conditionally below
@@ -37,14 +34,14 @@ class VideoDownloader(BaseModel):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             "Accept-Language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
         }
-        if url and "bilibili.com" in url:
+        if "bilibili.com" in url:
             http_headers["Referer"] = "https://www.bilibili.com"
 
         params = {
             "format": self.quality_formats.get(quality, "best"),
-            "outtmpl": f"{output_path.as_posix()}/%(id)s.%(ext)s",
+            "outtmpl": f"{output_path.as_posix()}/%(title)s.%(ext)s",
             "quiet": True,
-            "no_warnings": False,
+            "no_warnings": True,
             "continuedl": True,
             "noplaylist": True,
             "restrictfilenames": True,
