@@ -6,7 +6,7 @@ import fire
 from yt_dlp import YoutubeDL
 from pydantic import Field, BaseModel, computed_field
 from rich.console import Console
-
+from urllib.parse import urlparse
 console = Console()
 
 
@@ -34,7 +34,8 @@ class VideoDownloader(BaseModel):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             "Accept-Language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
         }
-        if url.startswith("https://www.bilibili.com"):
+        parsed = urlparse(url)
+        if parsed.hostname == "www.bilibili.com":
             http_headers["Referer"] = "https://www.bilibili.com"
 
         params = {
