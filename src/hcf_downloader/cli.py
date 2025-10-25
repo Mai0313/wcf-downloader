@@ -35,7 +35,7 @@ class VideoDownloader(BaseModel):
             "Accept-Language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
         }
         parsed = urlparse(url)
-        if parsed.hostname == "www.bilibili.com":
+        if parsed.hostname and parsed.hostname == "www.bilibili.com":
             http_headers["Referer"] = "https://www.bilibili.com"
 
         params = {
