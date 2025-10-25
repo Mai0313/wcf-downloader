@@ -596,6 +596,79 @@ wheels = [
 ]
 
 [[package]]
+name = "hcf-downloader"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "pydantic" },
+    { name = "yt-dlp" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "ipykernel" },
+    { name = "ipywidgets" },
+    { name = "notebook" },
+    { name = "poethepoet" },
+    { name = "pre-commit" },
+]
+docs = [
+    { name = "anyio" },
+    { name = "fire" },
+    { name = "griffe-typingdoc" },
+    { name = "markdown-exec", extra = ["ansi"] },
+    { name = "mkdocs-autorefs" },
+    { name = "mkdocs-coverage" },
+    { name = "mkdocs-material" },
+    { name = "mkdocstrings", extra = ["python"] },
+    { name = "rich" },
+    { name = "ruff" },
+    { name = "tabulate" },
+]
+test = [
+    { name = "genbadge", extra = ["all"] },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "pytest-cov" },
+    { name = "pytest-xdist", extra = ["psutil"] },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pydantic" },
+    { name = "yt-dlp", specifier = ">=2025.10.22" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "ipykernel" },
+    { name = "ipywidgets" },
+    { name = "notebook" },
+    { name = "poethepoet" },
+    { name = "pre-commit" },
+]
+docs = [
+    { name = "anyio" },
+    { name = "fire" },
+    { name = "griffe-typingdoc" },
+    { name = "markdown-exec", extras = ["ansi"] },
+    { name = "mkdocs-autorefs" },
+    { name = "mkdocs-coverage" },
+    { name = "mkdocs-material" },
+    { name = "mkdocstrings", extras = ["python"] },
+    { name = "rich" },
+    { name = "ruff" },
+    { name = "tabulate" },
+]
+test = [
+    { name = "genbadge", extras = ["all"] },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "pytest-cov" },
+    { name = "pytest-xdist", extras = ["psutil"] },
+]
+
+[[package]]
 name = "httpcore"
 version = "1.0.9"
 source = { registry = "https://pypi.org/simple" }
@@ -1951,75 +2024,6 @@ wheels = [
 ]
 
 [[package]]
-name = "repo-template"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "pydantic" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "ipykernel" },
-    { name = "ipywidgets" },
-    { name = "notebook" },
-    { name = "poethepoet" },
-    { name = "pre-commit" },
-]
-docs = [
-    { name = "anyio" },
-    { name = "fire" },
-    { name = "griffe-typingdoc" },
-    { name = "markdown-exec", extra = ["ansi"] },
-    { name = "mkdocs-autorefs" },
-    { name = "mkdocs-coverage" },
-    { name = "mkdocs-material" },
-    { name = "mkdocstrings", extra = ["python"] },
-    { name = "rich" },
-    { name = "ruff" },
-    { name = "tabulate" },
-]
-test = [
-    { name = "genbadge", extra = ["all"] },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "pytest-cov" },
-    { name = "pytest-xdist", extra = ["psutil"] },
-]
-
-[package.metadata]
-requires-dist = [{ name = "pydantic" }]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "ipykernel" },
-    { name = "ipywidgets" },
-    { name = "notebook" },
-    { name = "poethepoet" },
-    { name = "pre-commit" },
-]
-docs = [
-    { name = "anyio" },
-    { name = "fire" },
-    { name = "griffe-typingdoc" },
-    { name = "markdown-exec", extras = ["ansi"] },
-    { name = "mkdocs-autorefs" },
-    { name = "mkdocs-coverage" },
-    { name = "mkdocs-material" },
-    { name = "mkdocstrings", extras = ["python"] },
-    { name = "rich" },
-    { name = "ruff" },
-    { name = "tabulate" },
-]
-test = [
-    { name = "genbadge", extras = ["all"] },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "pytest-cov" },
-    { name = "pytest-xdist", extras = ["psutil"] },
-]
-
-[[package]]
 name = "requests"
 version = "2.32.3"
 source = { registry = "https://pypi.org/simple" }
@@ -2469,4 +2473,13 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/41/53/2e0253c5efd69c9656b1843892052a31c36d37ad42812b5da45c62191f7e/widgetsnbextension-4.0.14.tar.gz", hash = "sha256:a3629b04e3edb893212df862038c7232f62973373869db5084aed739b437b5af", size = 1097428, upload-time = "2025-04-10T13:01:25.628Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ca/51/5447876806d1088a0f8f71e16542bf350918128d0a69437df26047c8e46f/widgetsnbextension-4.0.14-py3-none-any.whl", hash = "sha256:4875a9eaf72fbf5079dc372a51a9f268fc38d46f767cbf85c43a36da5cb9b575", size = 2196503, upload-time = "2025-04-10T13:01:23.086Z" },
+]
+
+[[package]]
+name = "yt-dlp"
+version = "2025.10.22"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/70/cf4bd6c837ab0a709040888caa70d166aa2dfbb5018d1d5c983bf0b50254/yt_dlp-2025.10.22.tar.gz", hash = "sha256:db2d48133222b1d9508c6de757859c24b5cefb9568cf68ccad85dac20b07f77b", size = 3046863, upload-time = "2025-10-22T19:53:19.301Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cc/2a/fd184bf97d570841aa86b4aeb84aee93e7957a34059dafd4982157c10bff/yt_dlp-2025.10.22-py3-none-any.whl", hash = "sha256:9c803a9598859f91d0d5bd3337f1506ecb40bbe97f6efbe93bc4461fed344fb2", size = 3248983, upload-time = "2025-10-22T19:53:16.483Z" },
 ]

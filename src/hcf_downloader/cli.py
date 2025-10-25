@@ -4,21 +4,7 @@ import datetime
 from functools import cached_property
 
 from yt_dlp import YoutubeDL
-import logfire
 from pydantic import Field, BaseModel, computed_field
-from tenacity import RetryCallState, retry, wait_fixed, stop_after_attempt, retry_if_exception_type
-
-logfire.configure(send_to_logfire=False, scrubbing=False)
-
-
-# Tenacity retry configuration (hard-coded as requested)
-_TENACITY_MAX_ATTEMPTS = 5
-_TENACITY_WAIT_SECONDS = 1
-
-
-def _before_sleep_log(retry_state: RetryCallState) -> None:
-    attempt_number = getattr(retry_state, "attempt_number", 0)
-    logfire.warning(f"[Retry {attempt_number}/{_TENACITY_MAX_ATTEMPTS}], retrying...")
 
 
 class VideoDownloader(BaseModel):
@@ -82,13 +68,6 @@ class VideoDownloader(BaseModel):
             })
         return params
 
-    @retry(
-        reraise=True,
-        stop=stop_after_attempt(_TENACITY_MAX_ATTEMPTS),
-        wait=wait_fixed(_TENACITY_WAIT_SECONDS),
-        retry=retry_if_exception_type(Exception),
-        before_sleep=_before_sleep_log,
-    )
     def download(self, url: str, quality: str = "best", dry_run: bool = False) -> tuple[str, Path]:
         params = self.get_params(quality=quality, dry_run=dry_run, url=url)
         with YoutubeDL(params=params) as ydl:
